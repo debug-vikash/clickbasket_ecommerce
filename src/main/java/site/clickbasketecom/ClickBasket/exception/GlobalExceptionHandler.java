@@ -155,6 +155,21 @@ public class GlobalExceptionHandler {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
 
+        @ExceptionHandler(OrderNotFoundException.class)
+        public ResponseEntity<ErrorResponse> handleOrderNotFound(
+                        OrderNotFoundException ex,
+                        HttpServletRequest request) {
+                ErrorResponse error = ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .error("Not Found")
+                                .message(ex.getMessage())
+                                .path(request.getRequestURI())
+                                .build();
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+
         @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
         public ResponseEntity<ErrorResponse> handleAccessDenied(
                         org.springframework.security.access.AccessDeniedException ex,
