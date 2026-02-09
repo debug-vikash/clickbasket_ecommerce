@@ -39,11 +39,8 @@ public class CategoryService {
                     .orElseThrow(() -> new CategoryNotFoundException(request.getParentId()));
         }
 
-        String slug = generateSlug(request.getName());
-
         Category category = Category.builder()
                 .name(request.getName())
-                .slug(slug)
                 .description(request.getDescription())
                 .imageUrl(request.getImageUrl())
                 .parent(parent)
