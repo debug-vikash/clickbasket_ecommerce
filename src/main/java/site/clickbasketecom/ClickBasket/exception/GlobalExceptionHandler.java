@@ -65,6 +65,36 @@ public class GlobalExceptionHandler {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
 
+        @ExceptionHandler(VendorNotFoundException.class)
+        public ResponseEntity<ErrorResponse> handleVendorNotFound(
+                        VendorNotFoundException ex,
+                        HttpServletRequest request) {
+                ErrorResponse error = ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .error("Not Found")
+                                .message(ex.getMessage())
+                                .path(request.getRequestURI())
+                                .build();
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+
+        @ExceptionHandler(VendorNotApprovedException.class)
+        public ResponseEntity<ErrorResponse> handleVendorNotApproved(
+                        VendorNotApprovedException ex,
+                        HttpServletRequest request) {
+                ErrorResponse error = ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .status(HttpStatus.FORBIDDEN.value())
+                                .error("Forbidden")
+                                .message(ex.getMessage())
+                                .path(request.getRequestURI())
+                                .build();
+
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+        }
+
         @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
         public ResponseEntity<ErrorResponse> handleAccessDenied(
                         org.springframework.security.access.AccessDeniedException ex,
