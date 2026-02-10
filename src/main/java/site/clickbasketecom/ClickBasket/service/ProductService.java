@@ -22,6 +22,7 @@ import site.clickbasketecom.ClickBasket.repository.VendorRepository;
  */
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("null")
 public class ProductService {
 
     private final ProductRepository productRepository;
