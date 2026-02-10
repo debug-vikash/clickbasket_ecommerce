@@ -25,6 +25,7 @@ import site.clickbasketecom.ClickBasket.repository.VendorRepository;
  */
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("null")
 public class VendorService {
 
     private final VendorRepository vendorRepository;
