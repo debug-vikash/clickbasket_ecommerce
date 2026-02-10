@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Order Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #10b981;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #10b981;
+            margin: 0;
+        }
+
+        .alert-box {
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .alert-box h2 {
+            color: #10b981;
+            margin: 0;
+        }
+
+        .order-info {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .items-table th,
+        .items-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .items-table th {
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .customer-section {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .total-box {
+            background: #10b981;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏪 <span th:text="${storeName}">Store Name</span></h1>
+            <p>Vendor Dashboard</p>
+        </div>
+
+        <div class="alert-box">
+            <h2>🎉 New Order Received!</h2>
+        </div>
+
+        <div class="order-info">
+            <strong>Order #<span th:text="${orderNumber}">ORD-001</span></strong><br>
+            <span th:text="${#temporals.format(orderDate, 'dd MMM yyyy, hh:mm a')}">Order Date</span>
+        </div>
+
+        <h3>📦 Items to Fulfill</h3>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>SKU</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.productName}">Product Name</td>
+                    <td th:text="${item.productSku}">SKU</td>
+                    <td th:text="${item.quantity}">1</td>
+                    <td th:text="${'₹' + item.unitPrice}">₹100</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="total-box">
+            Your Earnings: ₹<span th:text="${itemTotal}">0</span>
+        </div>
+
+        <div class="customer-section">
+            <h3 style="margin-top: 0;">📍 Ship To</h3>
+            <strong th:text="${customerName}">Customer Name</strong><br>
+            <span th:text="${shippingAddress}">Address</span>
+        </div>
+
+        <div class="footer">
+            <p>Please process this order promptly to ensure customer satisfaction.</p>
+            <p>© 2026 ClickBasket Vendor Portal</p>
+        </div>
+    </div>
+</body>
+
+</html>
