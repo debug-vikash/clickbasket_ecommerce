@@ -31,6 +31,7 @@ public class OrderService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     /**
      * Place an order from the user's cart.
@@ -127,6 +128,10 @@ public class OrderService {
         cart.clearCart();
         cartRepository.save(cart);
 
+        // Send email notifications
+        emailService.sendOrderConfirmationEmail(savedOrder);
+        emailService.notifyVendorsAboutOrder(savedOrder);
+
         return mapToResponse(savedOrder);
     }
 
@@ -216,6 +221,10 @@ public class OrderService {
 
         order.setStatus(Order.OrderStatus.valueOf(status.toUpperCase()));
         Order savedOrder = orderRepository.save(order);
+
+        if (savedOrder.getStatus() == Order.OrderStatus.DELIVERED) {
+            emailService.sendOrderDeliveredEmail(savedOrder);
+        }
 
         return mapToResponse(savedOrder);
     }

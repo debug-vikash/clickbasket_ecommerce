@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; }
+        .container { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 20px; }
+        .header h1 { color: #2563eb; margin: 0; }
+        .order-info { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .order-number { font-size: 18px; font-weight: bold; color: #2563eb; }
+        .items-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .items-table th, .items-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .items-table th { background: #f1f5f9; font-weight: 600; }
+        .total-section { background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .total-row { display: flex; justify-content: space-between; padding: 5px 0; }
+        .total-row.final { font-size: 18px; font-weight: bold; color: #2563eb; border-top: 2px solid #e2e8f0; padding-top: 10px; margin-top: 10px; }
+        .address-section { background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛒 ClickBasket</h1>
+            <p>Thank you for your order!</p>
+        </div>
+
+        <p>Hi <span th:text="${customerName}">Customer</span>,</p>
+        <p>Your order has been placed successfully. Here are your order details:</p>
+
+        <div class="order-info">
+            <div class="order-number">Order #<span th:text="${orderNumber}">ORD-001</span></div>
+            <div th:text="${#temporals.format(orderDate, 'dd MMM yyyy, hh:mm a')}">Order Date</div>
+        </div>
+
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.productName}">Product Name</td>
+                    <td th:text="${item.quantity}">1</td>
+                    <td th:text="${'₹' + item.unitPrice}">₹100</td>
+                    <td th:text="${'₹' + item.totalPrice}">₹100</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="total-section">
+            <div class="total-row">
+                <span>Subtotal</span>
+                <span th:text="${'₹' + subtotal}">₹0</span>
+            </div>
+            <div class="total-row" th:if="${shippingCost != null and shippingCost > 0}">
+                <span>Shipping</span>
+                <span th:text="${'₹' + shippingCost}">₹0</span>
+            </div>
+            <div class="total-row" th:if="${taxAmount != null and taxAmount > 0}">
+                <span>Tax</span>
+                <span th:text="${'₹' + taxAmount}">₹0</span>
+            </div>
+            <div class="total-row" th:if="${discountAmount != null and discountAmount > 0}">
+                <span>Discount</span>
+                <span th:text="${'-₹' + discountAmount}">-₹0</span>
+            </div>
+            <div class="total-row final">
+                <span>Total</span>
+                <span th:text="${'₹' + totalAmount}">₹0</span>
+            </div>
+        </div>
+
+        <div class="address-section">
+            <h3 style="margin-top: 0;">📦 Shipping Address</h3>
+            <p th:text="${shippingAddress}">Address</p>
+        </div>
+
+        <div class="footer">
+            <p>If you have any questions, please contact us at support@clickbasket.com</p>
+            <p>© 2026 ClickBasket. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
